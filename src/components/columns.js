@@ -24,4 +24,11 @@ export const columns = [
     minWidth: 150,
     maxWidth: 200,
   },
+  {
+    field: 'description',
+    headerName: 'Description',
+    width: 125,
+    minWidth: 150,
+    maxWidth: 200,
+  },
 ];

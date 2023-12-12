@@ -27,7 +27,7 @@ export default function CustomFilter({
           className="flex border-l border-black/50 px-4 py-1 items-center gap-2 text-base"
           onClick={isFiltered ? handleClear : handleFilter}
         >
-          <CiFilter />
+          {isFiltered ? '' : <CiFilter />}
           {isFiltered ? 'Clear' : 'Filter'}
         </button>
       </div>
