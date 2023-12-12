@@ -1,22 +1,41 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable react/prop-types */
+import {useState} from 'react';
 import {DataGrid} from '@mui/x-data-grid';
 import useGetProductsQuery from '../hooks/useGetProductsQuery';
-import {columns} from '../components/columns';
 import ControlledStates from '../components/ControlledStates';
-import {useState} from 'react';
+import {columns} from '../components/columns';
+import CustomFilter from '../components/CustomFilter';
 
 export default function ViewProducts () {
   const {isLoading, isError, data, refetch} = useGetProductsQuery ();
   const [searchTerm, setSearchTerm] = useState ('');
-
+  const [filteredRows, setFilteredRows] = useState ([]);
+  const [isFiltered, setIsFiltered] = useState (false);
   const rows = (data && data.data) || [];
 
-  const filteredRows = rows.filter (
-    product =>
-      product.title.toLowerCase ().includes (searchTerm.toLowerCase ()) ||
-      product.price.toString ().includes (searchTerm.toLowerCase ())
-  );
+  const handleFilter = () => {
+    const searchTermLowerCase = searchTerm.toLowerCase ();
+
+    const filteredData = rows.filter (product => {
+      const titleMatches =
+        !isNaN (searchTerm) &&
+        product.price.toString ().includes (searchTermLowerCase);
+      const priceMatches =
+        isNaN (searchTerm) &&
+        product.title.toLowerCase ().includes (searchTermLowerCase);
+
+      return titleMatches || priceMatches;
+    });
+
+    setFilteredRows (filteredData);
+    setIsFiltered (true);
+  };
+
+  const handleClear = () => {
+    setFilteredRows ([]);
+    setSearchTerm ('');
+    setIsFiltered (false);
+  };
 
   return (
     <div className="flex">
@@ -40,28 +59,23 @@ export default function ViewProducts () {
             : <ControlledStates
                 content={
                   <div>
-                    <div className="m-4">
-                      <label htmlFor="searchInput" className="mr-2">
-                        Search:
-                      </label>
-                      <input
-                        type="text"
-                        id="searchInput"
-                        value={searchTerm}
-                        onChange={e => setSearchTerm (e.target.value)}
-                      />
-                    </div>
+                    <CustomFilter
+                      searchTerm={searchTerm}
+                      setSearchTerm={setSearchTerm}
+                      handleFilter={handleFilter}
+                      isFiltered={isFiltered}
+                      handleClear={handleClear}
+                    />
                     <DataGrid
-                      rows={searchTerm ? filteredRows : rows}
+                      rows={isFiltered ? filteredRows : rows}
                       columns={columns}
                       getRowId={row => row.id}
-                      initialState={{
-                        pagination: {
-                          paginationModel: {page: 0, pageSize: 5},
-                        },
-                      }}
-                      pageSizeOptions={[5, 10]}
                       checkboxSelection
+                      initialState={{
+                        ...data.initialState,
+                        pagination: {paginationModel: {pageSize: 5}},
+                      }}
+                      pageSizeOptions={[5, 10, 25]}
                     />
                   </div>
                 }
