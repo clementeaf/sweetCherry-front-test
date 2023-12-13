@@ -38,7 +38,7 @@
 - How to Run Locally:
   - Clone this Repository: Copy code: git clone <https://github.com/your-username/sweetcherry-front.git>
   - Navigate to the Project Directory: cd sweetcherry-front
-  - Install Dependencies: npm install
+  - Install Dependencies: npm install --legacy-peer-deps (must be this way)
   - Start Development Server: npm run dev The application will be available at <http://localhost:5173>.
 
 Additional Notes:
