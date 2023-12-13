@@ -1,8 +1,46 @@
-# React + Vite
+## sweetcherry-front Project
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+- Description:
+  This is a front-end project built with React, Vite, and Material-UI. It provides a modern and responsive user interface for managing products in a Sweet Cherry e-commerce application.
 
-Currently, two official plugins are available:
+- Project Setup:
+  Requirements:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+  Node.js (v18.2.0 or later)
+
+  Yarn (v1.22.17 or later)
+
+- Installation:
+  npm install
+
+- Dependencies:
+  React Libraries:
+  react
+  react-dom
+  UI Frameworks:
+  Material-UI
+  MUI Icons
+  State Management:
+  react-query
+  HTTP Requests:
+  axios
+  Development Dependencies:
+  Type Definitions:
+  @types/react
+  @types/react-dom
+  Vite Plugins:
+  @vitejs/plugin-react
+  Styling:
+  Tailwind CSS
+  PostCSS
+  Autoprefixer
+
+- How to Run Locally:
+  - Clone this Repository: Copy code: git clone <https://github.com/your-username/sweetcherry-front.git>
+  - Navigate to the Project Directory: cd sweetcherry-front
+  - Install Dependencies: npm install
+  - Start Development Server: npm run dev The application will be available at <http://localhost:5173>.
+
+Additional Notes:
+Ensure that your Node.js and Yarn versions match the specified requirements.
+Feel free to customize this README according to your project's specific details and requirements.
