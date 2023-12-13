@@ -12,7 +12,7 @@ export const headCells = [
     label: 'Price',
   },
   {
-    id: 'quantityAvailable',
+    id: 'quantity',
     numeric: true,
     disablePadding: false,
     label: 'Quantity Available',

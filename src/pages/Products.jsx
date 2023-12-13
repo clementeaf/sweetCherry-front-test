@@ -4,10 +4,10 @@ import {DataGrid} from '@mui/x-data-grid';
 import ControlledStates from '../components/ControlledStates';
 import {columns} from '../components/columns';
 import CustomFilter from '../components/CustomFilter';
-import useGetMockProductsQuery from '../hooks/useGetMockProductsQuery';
+import useGetProductsQuery from '../hooks/useGetProductsQuery';
 
 export default function ViewProducts () {
-  const {isLoading, isError, data, refetch} = useGetMockProductsQuery ();
+  const {isLoading, isError, data, refetch, error} = useGetProductsQuery ();
   const [searchTerm, setSearchTerm] = useState ('');
   const [filteredRows, setFilteredRows] = useState ([]);
   const [isFiltered, setIsFiltered] = useState (false);
@@ -39,30 +39,35 @@ export default function ViewProducts () {
 
   return (
     <div className="flex">
-      {isError
-        ? <ControlledStates state={isError} refetch={refetch} />
-        : isLoading
-            ? <ControlledStates state={isLoading} />
-            : <div>
-                <CustomFilter
-                  searchTerm={searchTerm}
-                  setSearchTerm={setSearchTerm}
-                  handleFilter={handleFilter}
-                  isFiltered={isFiltered}
-                  handleClear={handleClear}
-                />
-                <DataGrid
-                  rows={isFiltered ? filteredRows : rows}
-                  columns={columns}
-                  getRowId={row => row.id}
-                  checkboxSelection
-                  initialState={{
-                    ...data.initialState,
-                    pagination: {paginationModel: {pageSize: 5}},
-                  }}
-                  pageSizeOptions={[5, 10, 25]}
-                />
-              </div>}
+      <ControlledStates
+        state={isError ? 'error' : isLoading ? 'isLoading' : null}
+        refetch={refetch}
+        errorMessage={
+          isError ? (error ? error.message : 'Error') : 'Error Network'
+        }
+      />
+      {!isLoading &&
+        !isError &&
+        <div className="flex flex-col w-full">
+          <CustomFilter
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+            handleFilter={handleFilter}
+            isFiltered={isFiltered}
+            handleClear={handleClear}
+          />
+          <DataGrid
+            rows={isFiltered ? filteredRows : rows}
+            columns={columns}
+            getRowId={row => row.id}
+            checkboxSelection
+            initialState={{
+              ...data.initialState,
+              pagination: {paginationModel: {pageSize: 5}},
+            }}
+            pageSizeOptions={[5, 10, 25]}
+          />
+        </div>}
     </div>
   );
 }
